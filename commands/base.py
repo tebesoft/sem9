@@ -13,3 +13,5 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(f"Привет {user.first_name}!\n Список команд:\n /player_profile")
 
 
+def player_profile_command(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text(f"Введите имя: ")
