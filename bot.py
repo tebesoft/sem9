@@ -6,7 +6,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Conve
 # Enable logging
 from commands.base import start, player_profile_command
 from handlers.player_profile import input_player_name_handler, input_player_age_handler, PLAYER_NAME_STATE, \
-    PLAYER_AGE_STATE
+    PLAYER_AGE_STATE, PLAYER_GENDER_STATE, input_player_gender_handler
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -34,7 +34,8 @@ def main() -> None:
         entry_points=[CommandHandler('player_profile', player_profile_command)],
         states={
             PLAYER_NAME_STATE: [MessageHandler(Filters.text, input_player_name_handler)],
-            PLAYER_AGE_STATE: [MessageHandler(Filters.text, input_player_age_handler)]
+            PLAYER_AGE_STATE: [MessageHandler(Filters.text, input_player_age_handler)],
+            PLAYER_GENDER_STATE: [MessageHandler(Filters.text, input_player_gender_handler)],
         },
         fallbacks=[],
     )
