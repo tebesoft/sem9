@@ -17,10 +17,14 @@ TOKEN = "516449158:AAEOwpwo-fgJNkTgi_steXF33aGLOdJhsdc"
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
-    update.message.reply_markdown_v2(
-        fr'Hi {user.mention_markdown_v2()}\!',
-        reply_markup=ForceReply(selective=True),
-    )
+    update.message.reply_text(f"Привет {user.first_name}!\n Список команд:\n /player_profile")
+
+    # update.message.reply_markdown_v2(
+    #     fr'Hi {user.mention_markdown_v2()}\!',
+    #     reply_markup=ForceReply(selective=True),
+    # )
+
+
 
 def main() -> None:
     """Start the bot."""
