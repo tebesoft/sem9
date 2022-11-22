@@ -1,11 +1,12 @@
 import logging
 
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
 # Enable logging
 from commands.base import start, player_profile_command
-from handlers.player_profile import input_player_name_handler, input_player_age_handler
+from handlers.player_profile import input_player_name_handler, input_player_age_handler, PLAYER_NAME_STATE, \
+    PLAYER_AGE_STATE
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
@@ -13,7 +14,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-TOKEN = "516449158:AAGy7Qki4y1Tpg53ZvPrKV0iTxdPGGmCpo8"
+TOKEN = ""
 
 
 
@@ -28,9 +29,20 @@ def main() -> None:
 
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("player_profile", player_profile_command))
-    dispatcher.add_handler(MessageHandler(Filters.text, input_player_name_handler))
-    dispatcher.add_handler(MessageHandler(Filters.text, input_player_age_handler))
+
+    player_profile_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('player_profile', player_profile_command)],
+        states={
+            PLAYER_NAME_STATE: [MessageHandler(Filters.text, input_player_name_handler)],
+            PLAYER_AGE_STATE: [MessageHandler(Filters.text, input_player_age_handler)]
+        },
+        fallbacks=[],
+    )
+
+    dispatcher.add_handler(player_profile_conv_handler)
+
+    #dispatcher.add_handler(MessageHandler(Filters.text, input_player_name_handler))
+    #dispatcher.add_handler(MessageHandler(Filters.text, input_player_age_handler))
 
     # Start the Bot
     updater.start_polling()     # опрашиваем сервер телеграма
