@@ -1,9 +1,11 @@
 import logging
 
-from telegram import Update, ForceReply
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+from telegram.ext import Updater, CommandHandler
 
 # Enable logging
+from commands.base import start
+
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
@@ -11,18 +13,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 TOKEN = "516449158:AAEOwpwo-fgJNkTgi_steXF33aGLOdJhsdc"
-
-# Define a few command handlers. These usually take the two arguments update and
-# context.
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    user = update.effective_user
-    update.message.reply_text(f"Привет {user.first_name}!\n Список команд:\n /player_profile")
-
-    # update.message.reply_markdown_v2(
-    #     fr'Hi {user.mention_markdown_v2()}\!',
-    #     reply_markup=ForceReply(selective=True),
-    # )
 
 
 
